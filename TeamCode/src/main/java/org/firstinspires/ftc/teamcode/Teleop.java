@@ -5,10 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Util;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
@@ -85,8 +83,8 @@ public class Teleop extends LinearOpMode {
 
             //Arm Control
             double x = -gamepad2.left_stick_y;
-            armMotor1.setPower(x/0.6);
-            armMotor2.setPower(-(x/0.6));
+            armMotor1.setPower(x*0.6);
+            armMotor2.setPower(x*0.6);
 
 
             //Range is between [0.0 and 1.0] 0.5 being the center
