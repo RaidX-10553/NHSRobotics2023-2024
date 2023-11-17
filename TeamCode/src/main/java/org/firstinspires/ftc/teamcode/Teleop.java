@@ -4,17 +4,19 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 @TeleOp(name = "Teleop ArmV1", group = "TeleOp")
 public class Teleop extends LinearOpMode {
     //Claw
-    Servo claw1;
-    Servo claw2;
+    ServoImplEx claw1;
+    ServoImplEx claw2;
 
 
 
@@ -35,13 +37,15 @@ public class Teleop extends LinearOpMode {
         mecanumDrive = new SampleMecanumDrive(hardwareMap);
 
         //Claw
-        claw1 = hardwareMap.get(Servo.class, "claw1");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
-
+        claw1 = hardwareMap.get(ServoImplEx.class, "claw1");
+        claw2 = hardwareMap.get(ServoImplEx.class, "claw2");
+        claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
+        claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
         //Arm
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
         armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
 
+        //What's cracking guys - Syed from FTC
 
         waitForStart();
         //Setting ZeroPowerBehavior, should stop motor from rotating when not powered.
@@ -49,6 +53,18 @@ public class Teleop extends LinearOpMode {
 
         //Code is looped inside this while loop
         while (opModeIsActive()) {
+
+            //try catch from phone
+            try{
+                previousGamepad2.copy(currentGamepad2);
+                currentGamepad2.copy(gamepad2);
+
+                throw new RobotCoreException("kill yourself");
+            }
+            catch (RobotCoreException f)
+            {
+                //suck me
+            }
 
             //Slow Driving
             if (gamepad1.x) {
@@ -91,21 +107,23 @@ public class Teleop extends LinearOpMode {
             //Fix position values with testing
             //Claw Toggle
             //Falling Edge Detector
-            if (!currentGamepad2.left_bumper && previousGamepad2.left_bumper) {
-                if (claw1.getPosition() == 0) {
-                    claw1.setPosition(0.5);
+            if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
+                if (claw1.getPosition() == 0.40) {
+                    claw1.setPosition(0.25);
                 } else {
-                    claw1.setPosition(0);
+                    claw1.setPosition(0.40);
                 }
             }
 
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
-                if (claw1.getPosition() == 0) {
-                    claw1.setPosition(0.5);
+                if ((claw2.getPosition()> 0.24)&&(claw2.getPosition() < 0.34)) {
+                    claw2.setPosition(0.42);
                 } else {
-                    claw1.setPosition(0);
+                    claw2.setPosition(0.29);
                 }
             }
+
+
 
 
 
