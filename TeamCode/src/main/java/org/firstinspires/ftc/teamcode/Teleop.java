@@ -91,7 +91,7 @@ public class Teleop extends LinearOpMode {
             //Fix position values with testing
             //Claw Toggle
             //Falling Edge Detector
-            if (!currentGamepad2.left_bumper && previousGamepad2.left_bumper) {
+            if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
                 if (claw1.getPosition() == 0) {
                     claw1.setPosition(0.5);
                 } else {
@@ -100,12 +100,14 @@ public class Teleop extends LinearOpMode {
             }
 
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
-                if (claw1.getPosition() == 0) {
-                    claw1.setPosition(0.5);
+                if (claw2.getPosition() == 0) {
+                    claw2.setPosition(0.5);
                 } else {
-                    claw1.setPosition(0);
+                    claw2.setPosition(0);
                 }
             }
+
+
 
 
 
