@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.hardware.lynx.LynxModuleIntf;
-import com.qualcomm.hardware.lynx.commands.core.LynxResetMotorEncoderCommand;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -14,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
 
 
 @TeleOp(name = "Teleop ArmV1", group = "TeleOp")
@@ -45,6 +45,7 @@ public class Teleop extends LinearOpMode {
         claw2 = hardwareMap.get(ServoImplEx.class, "claw2");
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
+
         //Arm
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
         armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
@@ -66,7 +67,7 @@ public class Teleop extends LinearOpMode {
         //Code is looped inside this while loop
         while (opModeIsActive()) {
 
-            //try catch from phone
+            //try catch
             try{
                 previousGamepad2.copy(currentGamepad2);
                 currentGamepad2.copy(gamepad2);
@@ -111,9 +112,8 @@ public class Teleop extends LinearOpMode {
 
             //Arm Control
             if (gamepad2.a) {
-
-                armMotor1.setTargetPosition(30);
-                armMotor2.setTargetPosition(30);
+                armMotor1.setTargetPosition(35);
+                armMotor2.setTargetPosition(35);
                 armMotor2.setTargetPositionTolerance(1);
                 armMotor1.setTargetPositionTolerance(1);
                 armMotor1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -165,7 +165,11 @@ public class Teleop extends LinearOpMode {
                 }
             }
 
-            telemetry.addData("Position", armMotor1.getCurrentPosition());
+            telemetry.addData("Arm1", armMotor1.getCurrentPosition());
+            telemetry.addData( "Arm2" , armMotor2.getCurrentPosition());
+            telemetry.addData("ClawLeft", claw1.getPosition());
+            telemetry.addData( "ClawRight" , claw2.getPosition());
+
             telemetry.update();
 
 
