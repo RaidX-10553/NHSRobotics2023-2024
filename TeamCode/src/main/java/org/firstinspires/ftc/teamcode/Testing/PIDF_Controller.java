@@ -15,8 +15,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 public class PIDF_Controller extends OpMode{
     private PIDController controller;
 
-    public static double p = 0, i = 0, d = 0;
-    public static double f = 0;
+    public static double p = 0.22, i = 0, d = 0.0002;
+    public static double f = 1.1;
 
     public static int target = 0;
 
@@ -40,10 +40,11 @@ public class PIDF_Controller extends OpMode{
         int armPos = armMotor1.getCurrentPosition();
         double pid = controller.calculate(armPos, target);
 
-        double ticks_in_degree = 0.8;
+        double ticks_in_degree = 1.6;
         double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
         double power = pid * ff;
+
         armMotor1.setPower(power);
         armMotor2.setPower(power);
 
@@ -51,6 +52,8 @@ public class PIDF_Controller extends OpMode{
 
         telemetry.addData("pos ", armPos);
         telemetry.addData("target ", target);
+        telemetry.addData("power ", power);
+
         telemetry.update();
     }
 }
