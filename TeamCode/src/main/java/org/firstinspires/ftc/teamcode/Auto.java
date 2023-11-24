@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,8 +11,11 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /*
  * This OpMode illustrates the basics of using both AprilTag recognition and TensorFlow
@@ -20,7 +24,7 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: Double Vision", group = "Concept")
+@Autonomous(name = "Concept: Double Vision", group = "Concept")
 public class Auto extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -39,10 +43,14 @@ public class Auto extends LinearOpMode {
      */
     private VisionPortal myVisionPortal;
 
+    //changing exposure duh
+    ExposureControl myExposureControl;
+
+
     @Override
     public void runOpMode() {
         initDoubleVision();
-
+        myExposureControl = vuforia.getCamera().getControl(ExposureControl.class);
         // This OpMode loops continuously, allowing the user to switch between
         // AprilTag and TensorFlow Object Detection (TFOD) image processors.
         while (!isStopRequested())  {
@@ -99,7 +107,6 @@ public class Auto extends LinearOpMode {
         // -----------------------------------------------------------------------------------------
         // AprilTag Configuration
         // -----------------------------------------------------------------------------------------
-
         aprilTag = new AprilTagProcessor.Builder()
                 .build();
 
@@ -109,6 +116,14 @@ public class Auto extends LinearOpMode {
 
         tfod = new TfodProcessor.Builder()
                 .build();
+        //tfod.setZoom(2.0);
+
+        myExposureControl.setMode(ExposureControl.Mode.Manual);
+        myExposureControl.setExposure(20, TimeUnit.MILLISECONDS);
+
+
+
+
 
         // -----------------------------------------------------------------------------------------
         // Camera Configuration
