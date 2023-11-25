@@ -43,14 +43,16 @@ public class Auto extends LinearOpMode {
      */
     private VisionPortal myVisionPortal;
 
+
+
     //changing exposure duh
-    ExposureControl myExposureControl;
+    ExposureControl exposureControl = myVisionPortal.getCameraControl(ExposureControl.class);
 
 
     @Override
     public void runOpMode() {
         initDoubleVision();
-        myExposureControl = vuforia.getCamera().getControl(ExposureControl.class);
+        //myExposureControl = vuforia.getCamera().getControl(ExposureControl.class);
         // This OpMode loops continuously, allowing the user to switch between
         // AprilTag and TensorFlow Object Detection (TFOD) image processors.
         while (!isStopRequested())  {
@@ -118,8 +120,8 @@ public class Auto extends LinearOpMode {
                 .build();
         //tfod.setZoom(2.0);
 
-        myExposureControl.setMode(ExposureControl.Mode.Manual);
-        myExposureControl.setExposure(20, TimeUnit.MILLISECONDS);
+
+        exposureControl.setExposure(999,TimeUnit.MILLISECONDS);
 
 
 
