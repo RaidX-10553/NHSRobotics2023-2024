@@ -2,6 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -29,12 +35,15 @@ public class Teleop extends LinearOpMode {
     DcMotorEx armMotor1;
     DcMotorEx armMotor2;
 
-
-
     Gamepad currentGamepad2 = new Gamepad();
     Gamepad previousGamepad2 = new Gamepad();
-    private double driveValue = 1;
 
+    private PIDController controller;
+    public static double p = 0.05, i = 0, d = 0;
+    public static double f = 3;
+    public static int target = 0;
+    private double driveValue = 1;
+    boolean arm = TRUE;
     @Override
     public void runOpMode() throws InterruptedException {
         //Drive
@@ -52,12 +61,8 @@ public class Teleop extends LinearOpMode {
 
         //What's cracking guys - Syed from FTC
         //Motor Behavior
-        armMotor1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        armMotor2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        armMotor1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armMotor2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armMotor1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        controller = new PIDController(p, i, d);
+
 
 
 
@@ -110,38 +115,59 @@ public class Teleop extends LinearOpMode {
 
 
 
-            //Arm Control
-            if (gamepad2.a) {
-                armMotor1.setTargetPosition(35);
-                armMotor2.setTargetPosition(35);
-                armMotor2.setTargetPositionTolerance(1);
-                armMotor1.setTargetPositionTolerance(1);
-                armMotor1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                armMotor2.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                armMotor1.setVelocity(100);
-                armMotor2.setVelocity(100);
 
+
+            //Arm Control
+
+
+            if (arm) {
+                controller.setPID(p, i, d);
+                int armPos = armMotor1.getCurrentPosition();
+
+                double pid = controller.calculate(armPos, target);
+                double ticks_in_degree = 1.6;
+                double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
+                double power = pid * ff;
+                armMotor1.setPower(power);
+                armMotor2.setPower(power);
+            }
+
+
+
+
+
+            if (gamepad2.y) {
+                arm = TRUE;
+                target = 50;
             }
 
             if (gamepad2.b) {
-                armMotor1.setTargetPosition(-armMotor1.getCurrentPosition());
-                armMotor2.setTargetPosition(-armMotor2.getCurrentPosition());
-                armMotor1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                armMotor2.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                armMotor1.setVelocity(20);
-                armMotor2.setVelocity(20);
+                arm = TRUE;
+                target = 15;
+            }
+
+            if (gamepad2.a) {
+                arm = FALSE;
+                controller.reset();
+            }
+
+            if (!arm) {
+                armMotor1.setPower(0);
+                armMotor2.setPower(0);
+                armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                armMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
 
-            if (armMotor1.getCurrentPosition() <=3 && armMotor1.getCurrentPosition() >=-3) {
-                armMotor1.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-                armMotor2.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+            if (gamepad2.dpad_down && !arm) {
+                double x = -gamepad2.left_stick_y;
+                armMotor1.setPower(x*0.6);
+                armMotor2.setPower(x*0.6);
             }
-
-
-            //double x = -gamepad2.left_stick_y;
-            //armMotor1.setPower(x*0.6);
-            //armMotor2.setPower(x*0.6);
+            
 
 
 
@@ -150,18 +176,18 @@ public class Teleop extends LinearOpMode {
             //Claw Toggle
             //Falling Edge Detector
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
-                if (claw1.getPosition() == 0.40) {
+                if (claw1.getPosition() == 0.50) {
                     claw1.setPosition(0.25);
                 } else {
-                    claw1.setPosition(0.40);
+                    claw1.setPosition(0.50);
                 }
             }
 
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
-                if ((claw2.getPosition()> 0.24)&&(claw2.getPosition() < 0.34)) {
+                if ((claw2.getPosition()> 0.14)&&(claw2.getPosition() < 0.24)) {
                     claw2.setPosition(0.42);
                 } else {
-                    claw2.setPosition(0.29);
+                    claw2.setPosition(0.19);
                 }
             }
 

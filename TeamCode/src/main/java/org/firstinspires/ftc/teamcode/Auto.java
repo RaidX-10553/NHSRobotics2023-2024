@@ -46,7 +46,6 @@ public class Auto extends LinearOpMode {
 
 
     //changing exposure duh
-    ExposureControl exposureControl = myVisionPortal.getCameraControl(ExposureControl.class);
 
 
     @Override
@@ -118,10 +117,9 @@ public class Auto extends LinearOpMode {
 
         tfod = new TfodProcessor.Builder()
                 .build();
-        //tfod.setZoom(2.0);
+        tfod.setZoom(1.6);
 
 
-        exposureControl.setExposure(999,TimeUnit.MILLISECONDS);
 
 
 
