@@ -16,26 +16,18 @@ apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
 android {
-    namespace = 'org.firstinspires.ftc.teamcode'
-    androidResources {
-        noCompress 'tflite'
-    }
-
-    packagingOptions {
-        jniLibs {
-            pickFirsts += ['**/*.so']
-        }
-        jniLibs.useLegacyPackaging true
-    }
+    namespace = 'org.firstinspires.ftc.teamY'
 }
 
 dependencies {
     implementation project(':FtcRobotController')
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
-    //road runner
+    //RR
     implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
-    implementation 'com.acmerobotics.roadrunner:core:0.5.6'
-    implementation 'org.ftclib.ftclib:core:2.1.1'
+    implementation 'com.acmerobotics.roadrunner:core:0.5.5'
+
+    //OpenCV
+    implementation 'org.openftc:easyopencv:1.5.2'
+    implementation 'org.openftc:apriltag:1.1.0'
 }
