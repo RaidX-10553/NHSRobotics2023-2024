@@ -6,7 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -14,10 +14,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 @Config
 @TeleOp
 public class PIDF_Controller extends OpMode{
-    private PIDController controller;
+    private ArmFeedforward feedforward;
 
-    public static double p = 0.22, i = 0, d = 0.0002;
-    public static double f = 1.1;
+    public static double kS = 0, kV = 0, kA = 0;
+    public static double kCos = 0;
 
     public static int target = 0;
 
@@ -28,7 +28,7 @@ public class PIDF_Controller extends OpMode{
 
     @Override
     public void init() {
-        controller = new PIDController(p, i, d);
+        feedforward = new ArmFeedforward(kS, kCos, kV, kA);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
@@ -39,21 +39,17 @@ public class PIDF_Controller extends OpMode{
 
     @Override
     public void loop() {
-        controller.setPID(p, i, d);
-        int armPos = armMotor1.getCurrentPosition();
-        double pid = controller.calculate(armPos, target);
+        double feed = feedforward.calculate(target,2,3);
 
-        double ticks_in_degree = 1.6;
-        double ff = Math.cos(Math.toRadians(target / ticks_in_degree)) * f;
 
-        double power = pid * ff;
+        double power = feed;
 
         armMotor1.setPower(power);
         armMotor2.setPower(power);
 
 
 
-        telemetry.addData("pos ", armPos);
+        telemetry.addData("pos ", armMotor1.getCurrentPosition());
         telemetry.addData("target ", target);
         telemetry.addData("power ", power);
 

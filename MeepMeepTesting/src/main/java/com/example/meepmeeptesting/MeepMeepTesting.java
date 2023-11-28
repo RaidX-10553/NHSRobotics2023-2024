@@ -64,9 +64,7 @@ public class MeepMeepTesting {
                                 .waitSeconds(1)
                                 .strafeRight(2)
                                 .waitSeconds(1)
-                                .back(29)
-                                .strafeRight(47)
-                                .back(20)
+                                .back(50)
                                 .build()
                 );
 
@@ -74,7 +72,7 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(myBlueRight)
+                .addEntity(myRedRight)
                 .start();
     }
 }
