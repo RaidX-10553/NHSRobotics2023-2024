@@ -16,10 +16,17 @@ import com.arcrobotics.ftclib.controller.wpilibcontroller.ArmFeedforward;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.opencv.core.Rect;
+import  static org.firstinspires.ftc.teamcode.ColorDetector.*;
+
 
 
 @Config
-@Autonomous(name="RedLeftAuto", group="Autonomous")
+@Autonomous(name="RedRightAuto", group="Autonomous")
 public class RedRightAuto extends OpMode{
     private ArmFeedforward feedforward;
 
@@ -31,7 +38,9 @@ public class RedRightAuto extends OpMode{
     private DcMotorEx armMotor1;
     private DcMotorEx armMotor2;
 
+    ColorDetector detector;
 
+    VisionPortal visionPortal;
     SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
@@ -39,6 +48,16 @@ public class RedRightAuto extends OpMode{
     public void init() {
         feedforward = new ArmFeedforward(kS, kCos, kV, kA);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        Rect leftZone = centerRect(120,280,150,200);
+        Rect midZone = centerRect(320,320,150,200);
+
+        detector = new ColorDetector(telemetry, TargetColor.RED, ColorDetector.ViewMode.RAW, leftZone, midZone);
+        visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), detector);
+        CameraStreamServer.getInstance().setSource(detector);
+
+        telemetry.addData("Detection captured:",detector.getConfidentDetection());
+        Detection detection = detector.getConfidentDetection();
 
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
         armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
@@ -60,6 +79,7 @@ public class RedRightAuto extends OpMode{
     @Override
     public void loop() {
         drive.update();
+
 
         /*
         double feed = feedforward.calculate(target,2,3);
