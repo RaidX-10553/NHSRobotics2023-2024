@@ -43,10 +43,7 @@ public class BlueLeftAuto extends LinearOpMode {
         controller = new PIDController(p, i, d);
 
         //flipping
-        TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(startPose)
-                .UNSTABLE_addTemporalMarkerOffset(0,() -> {
-                    target = 15;
-                })
+        TrajectorySequence traj1 = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(1)
                 .strafeLeft(2)
                 .waitSeconds(1)
@@ -60,7 +57,7 @@ public class BlueLeftAuto extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
-        drive.followTrajectorySequence(myTrajectory);
+        drive.followTrajectorySequenceAsync(traj1);
 
         while (opModeIsActive()) {
             controller.setPID(p, i, d);

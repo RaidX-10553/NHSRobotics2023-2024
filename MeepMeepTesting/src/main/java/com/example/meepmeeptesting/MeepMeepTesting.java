@@ -3,6 +3,7 @@ package com.example.meepmeeptesting;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueLight;
+import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeRedLight;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
@@ -43,7 +44,7 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity myRedLeft = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .setColorScheme(new ColorSchemeBlueLight())
+                .setColorScheme(new ColorSchemeRedLight())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(180)))
                                 .waitSeconds(1)
@@ -58,7 +59,7 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity myRedRight = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-                .setColorScheme(new ColorSchemeBlueLight())
+                .setColorScheme(new ColorSchemeRedLight())
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(11, -61, Math.toRadians(180)))
                                 .waitSeconds(1)
@@ -73,6 +74,9 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myRedRight)
+                .addEntity(myRedLeft)
+                .addEntity(myBlueLeft)
+                .addEntity(myBlueRight)
                 .start();
     }
 }

@@ -43,7 +43,7 @@ public class Teleop extends LinearOpMode {
     public static double f = 3;
     public static int target = 0;
     private double driveValue = 1;
-    boolean arm = TRUE;
+    boolean arm = FALSE;
     @Override
     public void runOpMode() throws InterruptedException {
         //Drive
@@ -119,7 +119,6 @@ public class Teleop extends LinearOpMode {
 
             //Arm Control
 
-
             if (arm) {
                 controller.setPID(p, i, d);
                 int armPos = armMotor1.getCurrentPosition();
@@ -135,7 +134,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-
+            /*
             if (gamepad2.y) {
                 arm = TRUE;
                 target = 50;
@@ -160,13 +159,14 @@ public class Teleop extends LinearOpMode {
                 armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
+             */
 
 
-            if (gamepad2.dpad_down && !arm) {
-                double x = -gamepad2.left_stick_y;
-                armMotor1.setPower(x*0.6);
-                armMotor2.setPower(x*0.6);
-            }
+
+
+            double x = -gamepad2.left_stick_y;
+            armMotor1.setPower(x);
+            armMotor2.setPower(x);
             
 
 
