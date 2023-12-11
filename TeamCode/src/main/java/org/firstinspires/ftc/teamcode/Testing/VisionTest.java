@@ -46,32 +46,35 @@ public class VisionTest extends OpMode{
         CameraStreamServer.getInstance().setSource(detector);
 
         telemetry.addData("Detection captured:",detector.getConfidentDetection());
-        Detection detection = detector.getConfidentDetection();
 
-        while (!detector.isDetectionConfident()){
-            switch (detector.getConfidentDetection()) {
-                case LEFT:
-                    telemetry.addLine("left");
-                    telemetry.update();
-                    zone = Zone.LEFT;
-                    break;
-                case MIDDLE:
-                    telemetry.addLine("mid");
-                    telemetry.update();
-                    zone = Zone.MID;
-                    break;
-                case NONE:
-                    telemetry.addLine("right");
-                    telemetry.update();
-                    zone = Zone.RIGHT;
-                    break;
-                default:
-                    zone = Zone.NONE;
-                    break;
-            }
+
+
+
+
+
+    }
+    @Override
+    public void init_loop() {
+        switch (detector.getConfidentDetection()) {
+            case LEFT:
+                telemetry.addLine("left");
+                telemetry.update();
+                zone = Zone.LEFT;
+                break;
+            case MIDDLE:
+                telemetry.addLine("mid");
+                telemetry.update();
+                zone = Zone.MID;
+                break;
+            case NONE:
+                telemetry.addLine("right");
+                telemetry.update();
+                zone = Zone.RIGHT;
+                break;
+            default:
+                zone = Zone.NONE;
+                break;
         }
-
-
     }
 
     @Override
