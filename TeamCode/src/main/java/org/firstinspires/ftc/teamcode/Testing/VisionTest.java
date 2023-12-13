@@ -82,23 +82,23 @@ public class VisionTest extends OpMode{
 
 
         if(zone==Zone.LEFT) {
-            telemetry.addLine("left");
+            telemetry.addLine("left for real");
             telemetry.update();
 
         }
 
         if(zone==Zone.RIGHT) {
-            telemetry.addLine("right");
+            telemetry.addLine("right for real");
             telemetry.update();
 
         }
         if(zone==Zone.MID) {
-            telemetry.addLine("mid");
+            telemetry.addLine("mid af");
             telemetry.update();
 
         }
         if(zone==Zone.NONE) {
-            telemetry.addLine("none");
+            telemetry.addLine("we messed up big time");
             telemetry.update();
 
         }
