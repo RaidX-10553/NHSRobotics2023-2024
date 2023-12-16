@@ -25,15 +25,8 @@ public class VisionTest extends OpMode{
 
     VisionPortal visionPortal;
 
-    public enum Zone {
-        LEFT,
-        RIGHT,
-        MID,
-        NONE,
-    }
 
-    public Zone zone;
-
+    public int zone = 0;
 
     @Override
     public void init() {
@@ -46,6 +39,7 @@ public class VisionTest extends OpMode{
         CameraStreamServer.getInstance().setSource(detector);
 
         telemetry.addData("Detection captured:",detector.getConfidentDetection());
+        Detection detection = detector.getConfidentDetection();
 
 
         while (!detector.isDetectionConfident()){
@@ -53,20 +47,22 @@ public class VisionTest extends OpMode{
                 case LEFT:
                     telemetry.addLine("left");
                     telemetry.update();
-                    zone = Zone.LEFT;
+                    zone = 1;
                     break;
                 case MIDDLE:
                     telemetry.addLine("mid");
                     telemetry.update();
-                    zone = Zone.MID;
+                    zone = 2;
                     break;
                 case NONE:
                     telemetry.addLine("right");
                     telemetry.update();
-                    zone = Zone.RIGHT;
+                    zone = 3;
                     break;
                 default:
-                    zone = Zone.NONE;
+                    telemetry.addLine("none");
+                    telemetry.update();
+                    zone = 4;
                     break;
             }
         }
@@ -80,30 +76,26 @@ public class VisionTest extends OpMode{
     public void loop() {
 
 
-        if(zone==Zone.LEFT) {
+        if(zone==1) {
             telemetry.addLine("left for real");
             telemetry.update();
-
         }
 
-        if(zone==Zone.RIGHT) {
+        if(zone==2) {
             telemetry.addLine("right for real");
             telemetry.update();
 
         }
-        if(zone==Zone.MID) {
+        if(zone==3) {
             telemetry.addLine("mid af");
             telemetry.update();
 
         }
-        if(zone==Zone.NONE) {
+        if(zone==4) {
             telemetry.addLine("we messed up big time");
             telemetry.update();
 
         }
-
-
-
 
 
     }
