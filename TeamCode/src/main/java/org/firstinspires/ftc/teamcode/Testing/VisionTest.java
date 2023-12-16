@@ -81,12 +81,12 @@ public class VisionTest extends OpMode{
             telemetry.update();
         }
 
-        if(zone==2) {
+        if(zone==3) {
             telemetry.addLine("right for real");
             telemetry.update();
 
         }
-        if(zone==3) {
+        if(zone==2) {
             telemetry.addLine("mid af");
             telemetry.update();
 
