@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystem;
+package org.firstinspires.ftc.teamcode.Testing;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,7 +17,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 // The detector needs to implement VisionProcessor to be be inserted into the Vision Portal and needs to implement CameraStreamSource to send images to the DS
-public class ColorDetector implements VisionProcessor, CameraStreamSource {
+ class ColorDetector implements VisionProcessor, CameraStreamSource {
 
     // The values for red and blue are only used by the detector
     private static final Scalar BLUE_HSV_HIGH = new Scalar(130, 255, 255);

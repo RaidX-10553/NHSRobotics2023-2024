@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
-import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.Detection;
-import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.TargetColor;
-import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.ViewMode;
-import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.centerRect;
+import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.Detection;
+import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.TargetColor;
+import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.ViewMode;
+import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.centerRect;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
-import org.firstinspires.ftc.teamcode.subsystem.ColorDetector;
+import org.firstinspires.ftc.teamcode.Testing.ColorDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Rect;
 
@@ -67,6 +67,8 @@ public class VisionTest extends OpMode{
             }
         }
 
+        telemetry.addLine("been detected");
+        telemetry.update();
 
 
     }
@@ -80,21 +82,17 @@ public class VisionTest extends OpMode{
             telemetry.addLine("left for real");
             telemetry.update();
         }
-
         if(zone==3) {
             telemetry.addLine("right for real");
             telemetry.update();
-
         }
         if(zone==2) {
             telemetry.addLine("mid af");
             telemetry.update();
-
         }
         if(zone==4) {
             telemetry.addLine("we messed up big time");
             telemetry.update();
-
         }
 
 
