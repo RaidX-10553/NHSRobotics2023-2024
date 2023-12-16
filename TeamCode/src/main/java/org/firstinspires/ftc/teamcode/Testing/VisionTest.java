@@ -42,6 +42,16 @@ public class VisionTest extends OpMode{
         Detection detection = detector.getConfidentDetection();
 
 
+
+
+
+
+
+    }
+
+
+    @Override
+    public void loop() {
         while (!detector.isDetectionConfident()){
             switch (detector.getConfidentDetection()) {
                 case LEFT:
@@ -66,16 +76,8 @@ public class VisionTest extends OpMode{
                     break;
             }
         }
-
         telemetry.addLine("been detected");
         telemetry.update();
-
-
-    }
-
-
-    @Override
-    public void loop() {
 
 
         if(zone==1) {
