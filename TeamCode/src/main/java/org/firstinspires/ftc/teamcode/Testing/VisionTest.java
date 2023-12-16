@@ -42,23 +42,6 @@ public class VisionTest extends OpMode{
         Detection detection = detector.getConfidentDetection();
 
 
-        switch (detector.getConfidentDetection()) {
-            case LEFT:
-                telemetry.addLine("left");
-                telemetry.update();
-                zone = 1;
-                break;
-            case MIDDLE:
-                telemetry.addLine("mid");
-                telemetry.update();
-                zone = 2;
-                break;
-            default:
-                telemetry.addLine("right");
-                telemetry.update();
-                zone = 3;
-                break;
-        }
 
 
 
@@ -69,24 +52,32 @@ public class VisionTest extends OpMode{
     @Override
     public void loop() {
 
-
-
-
-
-        if(zone==1) {
+        if(detector.getConfidentDetection() == Detection.LEFT) {
             telemetry.addLine("left for real");
+            zone = 1;
             telemetry.update();
         }
-        if(zone==3) {
+        if(detector.getConfidentDetection() == Detection.RIGHT) {
             telemetry.addLine("right for real");
+            zone = 2;
             telemetry.update();
         }
-        if(zone==2) {
+        if(detector.getConfidentDetection() == Detection.MIDDLE) {
             telemetry.addLine("mid af");
+            zone = 3;
             telemetry.update();
         }
-        if(zone==4) {
-            telemetry.addLine("we messed up big time");
+
+        if(zone == 1){
+            telemetry.addLine("going left");
+            telemetry.update();
+        }
+        if(zone == 2){
+            telemetry.addLine("going right");
+            telemetry.update();
+        }
+        if(zone == 3){
+            telemetry.addLine("going mid");
             telemetry.update();
         }
 
