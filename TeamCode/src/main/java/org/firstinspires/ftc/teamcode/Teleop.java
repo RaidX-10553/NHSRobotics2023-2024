@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.WaitSegment;
 
 
 @TeleOp(name = "Teleop ArmV1", group = "TeleOp")
@@ -27,6 +27,9 @@ public class Teleop extends LinearOpMode {
     //Claw
     ServoImplEx claw1;
     ServoImplEx claw2;
+
+    ServoImplEx PlaneLauncher;
+
 
     //Drive
     SampleMecanumDrive mecanumDrive;
@@ -37,6 +40,10 @@ public class Teleop extends LinearOpMode {
 
     Gamepad currentGamepad2 = new Gamepad();
     Gamepad previousGamepad2 = new Gamepad();
+
+    Gamepad currentGamepad1 = new Gamepad();
+
+    Gamepad previousGamepad1 = new Gamepad();
 
     private PIDController controller;
     public static double p = 0.05, i = 0, d = 0;
@@ -59,6 +66,10 @@ public class Teleop extends LinearOpMode {
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
         armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
 
+        //PlaneLauncher
+
+        PlaneLauncher = hardwareMap.get(ServoImplEx.class,"PlaneLauncher");
+
         //What's cracking guys - Syed from FTC
         //Motor Behavior
         controller = new PIDController(p, i, d);
@@ -77,7 +88,19 @@ public class Teleop extends LinearOpMode {
                 previousGamepad2.copy(currentGamepad2);
                 currentGamepad2.copy(gamepad2);
 
-                throw new RobotCoreException("kill yourself");
+                throw new RobotCoreException("kill yourself (gamepad 2)");
+            }
+            catch (RobotCoreException f)
+            {
+                //suck me
+            }
+
+            //try catch
+            try{
+                previousGamepad1.copy(currentGamepad1);
+                currentGamepad1.copy(gamepad1);
+
+                throw new RobotCoreException("kill yourself (gamepad 1)");
             }
             catch (RobotCoreException f)
             {
@@ -134,7 +157,7 @@ public class Teleop extends LinearOpMode {
 
 
 
-            /*
+
             if (gamepad2.y) {
                 arm = TRUE;
                 target = 50;
@@ -159,15 +182,18 @@ public class Teleop extends LinearOpMode {
                 armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
-             */
 
 
 
 
+
+            /*
             double x = -gamepad2.left_stick_y;
             armMotor1.setPower(x);
             armMotor2.setPower(x);
-            
+
+             */
+
 
 
 
@@ -177,7 +203,8 @@ public class Teleop extends LinearOpMode {
             //Falling Edge Detector
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
                 if (claw1.getPosition() == 0.50) {
-                    claw1.setPosition(0.25);
+                    //0.25
+                    claw1.setPosition(0.40);
                 } else {
                     claw1.setPosition(0.50);
                 }
@@ -185,9 +212,22 @@ public class Teleop extends LinearOpMode {
 
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
                 if ((claw2.getPosition()> 0.14)&&(claw2.getPosition() < 0.24)) {
-                    claw2.setPosition(0.42);
+                    //0.42
+                    claw2.setPosition(0.30);
                 } else {
                     claw2.setPosition(0.19);
+                }
+            }
+
+            //airplane launcher PlaneLauncher
+            if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper){
+                if((PlaneLauncher.getPosition()>0.14)&&(PlaneLauncher.getPosition()<0.24)){
+                    //change to 1
+                    PlaneLauncher.setPosition(30);
+
+
+                }else{
+                    PlaneLauncher.setPosition(0.18);
                 }
             }
 
@@ -195,6 +235,7 @@ public class Teleop extends LinearOpMode {
             telemetry.addData( "Arm2" , armMotor2.getCurrentPosition());
             telemetry.addData("ClawLeft", claw1.getPosition());
             telemetry.addData( "ClawRight" , claw2.getPosition());
+            telemetry.addData("Plane Launcher", PlaneLauncher.getPosition());
 
             telemetry.update();
 

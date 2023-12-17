@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.Testing;
 
-import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.Detection;
-import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.TargetColor;
-import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.ViewMode;
-import static org.firstinspires.ftc.teamcode.Testing.ColorDetector.centerRect;
+import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.Detection;
+import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.TargetColor;
+import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.ViewMode;
+import static org.firstinspires.ftc.teamcode.subsystem.ColorDetector.centerRect;
+
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
-import org.firstinspires.ftc.teamcode.Testing.ColorDetector;
+import org.firstinspires.ftc.teamcode.subsystem.ColorDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Rect;
 
@@ -52,34 +53,47 @@ public class VisionTest extends OpMode{
     @Override
     public void loop() {
 
+        if(zone == 1){
+            telemetry.addLine("going left");
+            telemetry.update();
+
+
+
+        }
+        if(zone == 0){
+            telemetry.addLine("going right");
+            telemetry.update();
+
+
+        }
+        if(zone == 3){
+            telemetry.addLine("going mid");
+            telemetry.update();
+
+
+        }
+
         if(detector.getConfidentDetection() == Detection.LEFT) {
             telemetry.addLine("left for real");
             zone = 1;
             telemetry.update();
+
         }
         if(detector.getConfidentDetection() == Detection.RIGHT) {
             telemetry.addLine("right for real");
-            zone = 2;
+            zone = 0;
             telemetry.update();
+
         }
         if(detector.getConfidentDetection() == Detection.MIDDLE) {
             telemetry.addLine("mid af");
             zone = 3;
             telemetry.update();
+
         }
 
-        if(zone == 1){
-            telemetry.addLine("going left");
-            telemetry.update();
-        }
-        if(zone == 2){
-            telemetry.addLine("going right");
-            telemetry.update();
-        }
-        if(zone == 3){
-            telemetry.addLine("going mid");
-            telemetry.update();
-        }
+
+
 
 
     }

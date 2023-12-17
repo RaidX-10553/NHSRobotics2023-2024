@@ -15,19 +15,11 @@ public class NewCompMeepMeep {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .setColorScheme(new ColorSchemeBlueLight())
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-38, -61, Math.toRadians(90)))
-                                .waitSeconds(2)
-                                .forward(28)
-                                .waitSeconds(1)
-                                .back(2)
-                                .turn(Math.toRadians(-90))
-                                .forward(84)
-                                .waitSeconds(1)
+                        drive.trajectorySequenceBuilder(new Pose2d(-38, -61, Math.toRadians(0)))
+                                .waitSeconds(0.5)
+                                .back(19)
+                                .strafeLeft(30)
                                 .forward(2)
-                                .strafeLeft(23)
-                                .waitSeconds(3)
-                                .forward(10)
-                                .waitSeconds(2)
                                 .build()
                 );
 
