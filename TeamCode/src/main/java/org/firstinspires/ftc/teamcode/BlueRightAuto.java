@@ -17,8 +17,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Rect;
 
 
-@Autonomous(name="RedRightAuto", group="Autonomous")
-public class RedRightAuto extends LinearOpMode {
+@Autonomous(name="BlueRightAuto", group="Autonomous")
+public class BlueRightAuto extends LinearOpMode {
 
     ColorDetector detector;
 
@@ -36,7 +36,7 @@ public class RedRightAuto extends LinearOpMode {
         Rect leftZone = centerRect(240,240,150,300);
         Rect midZone = centerRect(560,180,150,200);
 
-        detector = new ColorDetector(telemetry, ColorDetector.TargetColor.RED, ColorDetector.ViewMode.RAW, leftZone, midZone);
+        detector = new ColorDetector(telemetry, ColorDetector.TargetColor.BLUE, ColorDetector.ViewMode.RAW, leftZone, midZone);
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), detector);
         CameraStreamServer.getInstance().setSource(detector);
 
@@ -51,7 +51,7 @@ public class RedRightAuto extends LinearOpMode {
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(90)))
+        TrajectorySequence right = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(180)))
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -72,12 +72,10 @@ public class RedRightAuto extends LinearOpMode {
                     telemetry.update();
                 })
                 .forward(4)
-                .back(2)
-                .strafeLeft(22)
-                .forward(42)
+                .back(10)
                 .build();
 
-        TrajectorySequence middle = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(90)))
+        TrajectorySequence middle = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -97,15 +95,11 @@ public class RedRightAuto extends LinearOpMode {
                     telemetry.update();
                 })
                 .waitSeconds(2)
-                .back(5)
-                .turn(Math.toRadians(-90))
-                .forward(25)
-                .strafeLeft(24)
-                .forward(20)
+                .back(10)
                 .build();
 
 
-        TrajectorySequence left = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(90)))
+        TrajectorySequence left = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -126,9 +120,7 @@ public class RedRightAuto extends LinearOpMode {
                     telemetry.update();
                 })
                 .forward(4)
-                .back(20)
-                .strafeRight(20)
-                .back(32)
+                .back(10)
                 .build();
 
         waitForStart();
