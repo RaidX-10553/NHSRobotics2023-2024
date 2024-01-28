@@ -63,7 +63,7 @@ public class USETHISONEFORBLUEBlueLeftAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeRight(4)
                 .forward(31)
-                .turn(Math.toRadians(-90))
+                .turn(Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
                     claw1.setPosition(0.50);
@@ -140,7 +140,7 @@ public class USETHISONEFORBLUEBlueLeftAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeRight(8)
                 .forward(31)
-                .turn(Math.toRadians(90))
+                .turn(Math.toRadians(-90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
                     claw1.setPosition(0.50);

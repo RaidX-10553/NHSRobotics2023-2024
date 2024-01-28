@@ -63,7 +63,7 @@ public class BlueRightAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeRight(4)
                 .forward(26)
-                .turn(Math.toRadians(-90))
+                .turn(Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
                     claw1.setPosition(0.50);
@@ -111,7 +111,7 @@ public class BlueRightAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeRight(4)
                 .forward(26)
-                .turn(Math.toRadians(90))
+                .turn(Math.toRadians(-90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
                     claw1.setPosition(0.50);

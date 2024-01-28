@@ -210,7 +210,7 @@ public class Teleop extends LinearOpMode {
                 }
             }
 
-            if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
+            if (!currentGamepad2.left_bumper && previousGamepad2.left_bumper) {
                 if (claw2.getPosition() == 0.19) {
                     //0.42
                     claw2.setPosition(0.30);

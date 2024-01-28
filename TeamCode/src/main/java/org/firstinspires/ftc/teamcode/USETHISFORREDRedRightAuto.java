@@ -51,7 +51,7 @@ public class USETHISFORREDRedRightAuto extends LinearOpMode {
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
 
-        TrajectorySequence coolTrajectory = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(90)))
+        TrajectorySequence left = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(90)))
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -63,7 +63,7 @@ public class USETHISFORREDRedRightAuto extends LinearOpMode {
                 .waitSeconds(1)
                 .strafeRight(4)
                 .forward(31)
-                .turn(Math.toRadians(-90))
+                .turn(Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
                     claw1.setPosition(0.50);
@@ -72,21 +72,55 @@ public class USETHISFORREDRedRightAuto extends LinearOpMode {
                     telemetry.update();
                 })
                 .back(5)
-                /*
-                .forward(4)
-                .back(2)
 
-                .strafeLeft(22)
-                .forward(42)
+                .build();
+
+        TrajectorySequence right = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
+                .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(.40);
+                    claw2.setPosition(0.30);
+                    telemetry.addData("Closing ","");
+                    telemetry.update();
+                })
+                .waitSeconds(1)
+                .strafeRight(4)
+                .forward(26)
+                .turn(Math.toRadians(-90))
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(0.50);
                     claw2.setPosition(0.19);
                     telemetry.addData("Opening ","");
                     telemetry.update();
                 })
-
-                 */
+                .forward(4)
+                .back(10)
                 .build();
 
+        TrajectorySequence middle = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
+                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(.40);
+                    claw2.setPosition(0.30);
+                    telemetry.addData("Closing ","");
+                    telemetry.update();
+                })
+                .waitSeconds(1)
+                .strafeRight(4)
+                .forward(29)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(0.50);
+                    claw2.setPosition(0.19);
+                    telemetry.addData("Opening ","");
+                    telemetry.update();
+                })
+                .waitSeconds(2)
+                .back(10)
+                .build();
 
 
 
@@ -110,14 +144,28 @@ public class USETHISFORREDRedRightAuto extends LinearOpMode {
         }
 
 
+        if(zone == 1){
+            telemetry.addLine("going left");
+            telemetry.update();
 
+            drive.followTrajectorySequence(left);
+
+        }
+
+        if(zone == 3){
+            telemetry.addLine("going mid");
+            telemetry.update();
+
+            drive.followTrajectorySequence(middle);
+        }
 
         if(zone == 0){
             telemetry.addLine("going right");
             telemetry.update();
 
-            drive.followTrajectorySequence(coolTrajectory);
+            drive.followTrajectorySequence(right);
         }
+
 
 
 
