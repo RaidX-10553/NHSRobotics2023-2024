@@ -61,7 +61,7 @@ public class USETHISFORREDRedRightAuto extends LinearOpMode {
                     telemetry.update();
                 })
                 .waitSeconds(1)
-                .strafeRight(4)
+                .strafeRight(5)
                 .forward(31)
                 .turn(Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {

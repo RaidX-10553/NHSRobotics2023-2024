@@ -51,7 +51,11 @@ public class USETHISONEFORBLUEBlueLeftAuto extends LinearOpMode {
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(180)))
+        Pose2d startPose = new Pose2d(7, -61, Math.toRadians(90));
+        drive.setPoseEstimate(startPose);
+
+
+        TrajectorySequence right = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -88,7 +92,7 @@ public class USETHISONEFORBLUEBlueLeftAuto extends LinearOpMode {
                  */
                 .build();
 
-        TrajectorySequence middle = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(180)))
+        TrajectorySequence middle = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -128,7 +132,7 @@ public class USETHISONEFORBLUEBlueLeftAuto extends LinearOpMode {
                 .build();
 
 
-        TrajectorySequence left = drive.trajectorySequenceBuilder( new Pose2d(7, -61, Math.toRadians(180)))
+        TrajectorySequence left = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens

@@ -51,55 +51,10 @@ public class BlueRightAuto extends LinearOpMode {
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(180)))
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //Claw Opens
-                    claw1.setPosition(.40);
-                    claw2.setPosition(0.30);
-                    telemetry.addData("Closing ","");
-                    telemetry.update();
-                })
-                .waitSeconds(1)
-                .strafeRight(4)
-                .forward(26)
-                .turn(Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //Claw Opens
-                    claw1.setPosition(0.50);
-                    claw2.setPosition(0.19);
-                    telemetry.addData("Opening ","");
-                    telemetry.update();
-                })
-                .forward(4)
-                .back(10)
-                .build();
+        Pose2d startPose = new Pose2d(-40, -61, Math.toRadians(270));
+        drive.setPoseEstimate(startPose);
 
-        TrajectorySequence middle = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //Claw Opens
-                    claw1.setPosition(.40);
-                    claw2.setPosition(0.30);
-                    telemetry.addData("Closing ","");
-                    telemetry.update();
-                })
-                .waitSeconds(1)
-                .strafeRight(4)
-                .forward(29)
-                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
-                    //Claw Opens
-                    claw1.setPosition(0.50);
-                    claw2.setPosition(0.19);
-                    telemetry.addData("Opening ","");
-                    telemetry.update();
-                })
-                .waitSeconds(2)
-                .back(10)
-                .build();
-
-
-        TrajectorySequence left = drive.trajectorySequenceBuilder( new Pose2d(-40, -61, Math.toRadians(90)))
+        TrajectorySequence right = drive.trajectorySequenceBuilder(startPose)
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0, () -> {
                     //Claw Opens
@@ -119,7 +74,55 @@ public class BlueRightAuto extends LinearOpMode {
                     telemetry.addData("Opening ","");
                     telemetry.update();
                 })
-                .forward(4)
+                .strafeLeft(8)
+                .back(10)
+                .build();
+
+        TrajectorySequence middle = drive.trajectorySequenceBuilder(startPose)
+                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(.40);
+                    claw2.setPosition(0.30);
+                    telemetry.addData("Closing ","");
+                    telemetry.update();
+                })
+                .waitSeconds(1)
+                .strafeRight(4)
+                .forward(31)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(0.50);
+                    claw2.setPosition(0.19);
+                    telemetry.addData("Opening ","");
+                    telemetry.update();
+                })
+                .waitSeconds(2)
+                .back(10)
+                .build();
+
+
+        TrajectorySequence left = drive.trajectorySequenceBuilder(startPose)
+                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(.40);
+                    claw2.setPosition(0.30);
+                    telemetry.addData("Closing ","");
+                    telemetry.update();
+                })
+                .waitSeconds(1)
+                .strafeRight(4)
+                .forward(26)
+                .turn(Math.toRadians(90))
+                .strafeRight(8)
+                .UNSTABLE_addTemporalMarkerOffset(0, () -> {
+                    //Claw Opens
+                    claw1.setPosition(0.50);
+                    claw2.setPosition(0.19);
+                    telemetry.addData("Opening ","");
+                    telemetry.update();
+                })
                 .back(10)
                 .build();
 
@@ -163,7 +166,9 @@ public class BlueRightAuto extends LinearOpMode {
             drive.followTrajectorySequence(right);
         }
 
-
+        Pose2d poseEstimate = drive.getPoseEstimate();
+        telemetry.addData("finalHeading", poseEstimate.getHeading());
+        telemetry.update();
 
         while (opModeIsActive()) {
 
