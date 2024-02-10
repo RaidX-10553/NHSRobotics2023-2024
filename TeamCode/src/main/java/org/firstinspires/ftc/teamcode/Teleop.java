@@ -28,6 +28,9 @@ public class Teleop extends LinearOpMode {
     ServoImplEx claw1;
     ServoImplEx claw2;
 
+    ServoImplEx hang;
+
+
     ServoImplEx PlaneLauncher;
 
 
@@ -37,6 +40,8 @@ public class Teleop extends LinearOpMode {
     //Arm
     DcMotorEx armMotor1;
     DcMotorEx armMotor2;
+
+    DcMotorEx hang_m;
 
     Gamepad currentGamepad2 = new Gamepad();
     Gamepad previousGamepad2 = new Gamepad();
@@ -59,12 +64,15 @@ public class Teleop extends LinearOpMode {
         //Claw
         claw1 = hardwareMap.get(ServoImplEx.class, "claw1");
         claw2 = hardwareMap.get(ServoImplEx.class, "claw2");
+        hang = hardwareMap.get(ServoImplEx.class, "hang");
+        hang.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw1.setPwmRange(new PwmControl.PwmRange(500,2500));
         claw2.setPwmRange(new PwmControl.PwmRange(500,2500));
 
         //Arm
         armMotor1 = hardwareMap.get(DcMotorEx.class, "arm1");
         armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
+        hang_m = hardwareMap.get(DcMotorEx.class, "winch");
 
         //PlaneLauncher
 
@@ -187,12 +195,29 @@ public class Teleop extends LinearOpMode {
 
 
 
-            /*
+            //Winch
             double x = -gamepad2.left_stick_y;
-            armMotor1.setPower(x);
-            armMotor2.setPower(x);
+            hang_m.setPower(x/2);
 
-             */
+
+
+            if (gamepad2.dpad_up) {
+                hang.setPosition(0.64);
+            }
+
+            if (gamepad2.dpad_down) {
+                hang.setPosition(0.20);
+            }
+
+            double pos = hang.getPosition();
+
+            if (gamepad2.dpad_left) {
+                hang.setPosition((pos + 1));
+            }
+
+            if (gamepad2.dpad_right) {
+                hang.setPosition((pos - 1));
+            }
 
 
 
