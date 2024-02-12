@@ -212,13 +212,12 @@ public class Teleop extends LinearOpMode {
             double pos = hang.getPosition();
 
             if (gamepad2.dpad_left) {
-                hang.setPosition((pos + 1));
+                hang.setPosition((pos + 0.01));
             }
 
             if (gamepad2.dpad_right) {
-                hang.setPosition((pos - 1));
+                hang.setPosition((pos - 0.01));
             }
-
 
 
 
