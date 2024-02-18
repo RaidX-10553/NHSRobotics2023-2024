@@ -33,8 +33,8 @@ public class BlueRightAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Rect leftZone = centerRect(240,240,150,300);
-        Rect midZone = centerRect(560,180,150,200);
+        Rect leftZone = centerRect(240,240,220,300);
+        Rect midZone = centerRect(560,180,220,200);
 
         detector = new ColorDetector(telemetry, ColorDetector.TargetColor.BLUE, ColorDetector.ViewMode.RAW, leftZone, midZone);
         visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), detector);
