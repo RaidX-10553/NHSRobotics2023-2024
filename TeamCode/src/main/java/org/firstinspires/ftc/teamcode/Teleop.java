@@ -226,32 +226,32 @@ public class Teleop extends LinearOpMode {
             //Claw Toggle
             //Falling Edge Detector
             if (!currentGamepad2.left_bumper && previousGamepad2.left_bumper) {
-                if (claw1.getPosition() >= 0.50) {
+                if (claw1.getPosition() >= 0.63) {
                     //0.25
-                    claw1.setPosition(0.38);
+                    claw1.setPosition(0.46);
                 } else {
-                    claw1.setPosition(0.50);
+                    claw1.setPosition(0.63);
                 }
             }
 
             if (!currentGamepad2.right_bumper && previousGamepad2.right_bumper) {
-                if (claw2.getPosition() == 0.19) {
+                if (claw2.getPosition() >= 0.31 && claw2.getPosition() <= 0.35) {
                     //0.42
-                    claw2.setPosition(0.32);
+                    claw2.setPosition(0.51);
                 } else {
-                    claw2.setPosition(0.19);
+                    claw2.setPosition(0.33);
                 }
             }
 
             //airplane launcher PlaneLauncher
             if (!currentGamepad1.left_bumper && previousGamepad1.left_bumper){
-                if((PlaneLauncher.getPosition()>0.14)&&(PlaneLauncher.getPosition()<0.24)){
+                if(PlaneLauncher.getPosition()<=0.72 && PlaneLauncher.getPosition()>=0.66){
                     //change to 1
-                    PlaneLauncher.setPosition(30);
+                    PlaneLauncher.setPosition(1);
 
 
                 }else{
-                    PlaneLauncher.setPosition(0.18);
+                    PlaneLauncher.setPosition(0.69);
                 }
             }
 
